@@ -15,24 +15,3 @@ if (!fs.existsSync(options.input)) {
     console.error('Cannot find input file');
     process.exit(1);
 }
-<<<<<<< HEAD
-=======
-const data = JSON.parse(fs.readFileSync(options.input, 'utf8'));
-let minAsset = null;
-let minValue = Infinity;
-data.forEach(asset => {
-    const value = asset.value !== undefined ? asset.value : Infinity;
-    const name = asset.txt || 'Unknown';
-    if (value < minValue) {
-        minValue = value;
-        minAsset = name;
-    }
-});
-const output = `${minAsset}:${minValue}`;
-if (options.output) {
-    fs.writeFileSync(options.output, output);
-}
-if (options.display) {
-    console.log(output);
-}
->>>>>>> f7452bade20498a88b3df0db470a0f89496da095
