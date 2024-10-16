@@ -3,8 +3,6 @@ const { Command } = require('commander');
 
 const program = new Command();
 
-
-
 program
     .option('-i, --input <file>', 'шлях до файлу для читання (json)')
     .option('-o, --output <file>', 'шлях до файлу для запису результату')
@@ -28,23 +26,22 @@ const data = JSON.parse(fs.readFileSync(options.input, 'utf8'));
 let minAsset = null;
 let minValue = Infinity;
 
+data.forEach(item => {
+    const cost = item.value !== undefined ? item.value : Infinity; 
+    const description = item.txt || 'Unknown';
 
-data.forEach(asset => {
-    const value = asset.value !== undefined ? asset.value : Infinity;
-    const name = asset.txt || 'Unknown';
-
-    if (value < minValue) {
-        minValue = value;
-        minAsset = name;
+    if (cost < minValue) {
+        minValue = cost; 
+        minAsset = description; 
     }
 });
 
 const output = `${minAsset}:${minValue}`;
 
 if (options.output) {
-    fs.writeFileSync(options.output, output);
+    fs.writeFileSync(options.output, output); 
 }
 
 if (options.display) {
-    console.log(output);
+    console.log(output); 
 }
