@@ -27,32 +27,29 @@ if (!output && !display) {
   return;
 }
 
-const data = JSON.parse(
-  fs.readFileSync(input, {
-    encoding: "utf-8",
-    flag: "r",
-  })
-);
-
-const filteredTheLowestData = data.reduce((accumulator, currentElement) => {
-  return accumulator.value < currentElement.value
-    ? accumulator
-    : currentElement;
+const dataFromFile = fs.readFileSync(input, {
+  encoding: "utf-8",
+  flag: "r",
 });
 
-const result = `${filteredTheLowestData.txt}: ${filteredTheLowestData.value}`;
+const parsedData = JSON.parse(dataFromFile);
 
-if (display && output) {
-  console.log(result);
-  fs.writeFileSync(output, result, {
-    encoding: "utf-8",
-    flag: "w",
-    flush: true,
-  });
-} else if (display && !output) {
-  console.log(result);
-} else if (!display && output) {
-  fs.writeFileSync(output, result, {
+const filteredTheLowestData = parsedData.reduce(
+  (accumulator, currentElement) => {
+    return accumulator.value < currentElement.value
+      ? accumulator
+      : currentElement;
+  }
+);
+
+const resultOutput = `${filteredTheLowestData.txt}: ${filteredTheLowestData.value}`;
+
+if (display) {
+  console.log(resultOutput);
+}
+
+if (output) {
+  fs.writeFileSync(output, resultOutput, {
     encoding: "utf-8",
     flag: "w",
     flush: true,
